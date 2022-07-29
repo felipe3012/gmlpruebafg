@@ -28,8 +28,8 @@ class Client extends Model
      *
      * @var array
      */
-    protected $attributes = [
-        'id', 'nombre', 'apellido', 'cedula', 'email', 'pais', 'direccion', 'celular'
+    protected $fillable = [
+        'id', 'nombre', 'apellido', 'cedula', 'email', 'pais', 'direccion', 'celular', 'id_independient'
     ];
 
     /**

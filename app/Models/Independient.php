@@ -28,7 +28,7 @@ class Independient extends Model
      *
      * @var array
      */
-    protected $attributes = [
+    protected $fillable = [
         'id', 'categorias'
     ];
 

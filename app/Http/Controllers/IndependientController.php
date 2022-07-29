@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Independient;
+use App\Http\Requests\IndependientRequest;
 
 class IndependientController extends Controller
 {
@@ -14,17 +16,9 @@ class IndependientController extends Controller
     public function index()
     {
         //
+        return Independient::all();
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -32,9 +26,9 @@ class IndependientController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(IndependientRequest $request)
     {
-        //
+        return Independient::create($request->all());
     }
 
     /**
@@ -46,17 +40,7 @@ class IndependientController extends Controller
     public function show($id)
     {
         //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
+        return Independient::find($id);
     }
 
     /**
@@ -66,9 +50,11 @@ class IndependientController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(IndependientRequest $request, $id)
     {
         //
+        $independient = Independient::find($id);
+        return $independient->fill($request->all())->save();
     }
 
     /**
@@ -80,5 +66,6 @@ class IndependientController extends Controller
     public function destroy($id)
     {
         //
+        return Independient::destroy($id);
     }
 }
