@@ -32,4 +32,12 @@ class Independient extends Model
         'id', 'categorias'
     ];
 
+    /**
+     * Get the categorie that owns the client.
+     */
+    public function clients()
+    {
+        return $this->belongsTo(Client::class, 'id_independiet', 'id');
+    }
+
 }

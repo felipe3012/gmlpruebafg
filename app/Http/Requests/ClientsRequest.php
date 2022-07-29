@@ -31,7 +31,7 @@ class ClientsRequest extends FormRequest
             'email' => 'required|email|max:150|unique:clients,email',
             'pais' => 'required',
             'direccion' => 'required|max:180',
-            'celular' => 'required|numeric|min:10|max:10',
+            'celular' => 'required|numeric|min:1000000000|max:9999999999',
             'id_independiet' => 'required|exists:independients,id'
         ];
     }

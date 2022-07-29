@@ -8,6 +8,14 @@ require('./bootstrap');
 
 import { createApp } from 'vue';
 
-const app = new createApp({});
+import HomeComponent from './components/HomeComponent.vue';
+
+import VueSweetalert2 from 'vue-sweetalert2';
+import 'sweetalert2/dist/sweetalert2.min.css';
+
+const app = createApp({})
+
+app.component('home-component', HomeComponent)
+app.use(VueSweetalert2);
 
 app.mount('#app')

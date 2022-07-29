@@ -7,7 +7,7 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
 
-class CreateUSer extends Mailable
+class CreateUser extends Mailable
 {
     use Queueable, SerializesModels;
 
@@ -34,7 +34,7 @@ class CreateUSer extends Mailable
      */
     public function build()
     {
-        return $this->view('view.notifications.'.$this->template)->with([
+        return $this->view('emails.'.$this->template)->with([
             'data' => $this->data
         ]);;
     }

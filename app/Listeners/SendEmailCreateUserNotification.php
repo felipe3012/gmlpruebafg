@@ -6,6 +6,8 @@ use App\Events\SendEmailCreateUser;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Queue\InteractsWithQueue;
 use Illuminate\Support\Facades\Mail;
+use App\Models\Setting;
+use App\Mail\CreateUser;
 
 class SendEmailCreateUserNotification
 {
@@ -30,12 +32,12 @@ class SendEmailCreateUserNotification
         $template = 'client';
         $email = $event->data[1]->email;
         if($event->data[0]){
-            //consulta
-          $config = "";
+          //consulta email admin
+          $config = Setting::first();
           $template = 'admin';
-          $email = $config->email;
+          $email = $config->email_admin;
         }
-        Mail::to($email)->send(new CreateUSer($template, $event->data[1]));
+        Mail::to($email)->send(new CreateUser($template, $event->data[1]));
 
     }
 }

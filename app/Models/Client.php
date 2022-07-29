@@ -37,6 +37,6 @@ class Client extends Model
      */
     public function categories()
     {
-        return $this->hasOne(Independient::class);
+        return $this->hasOne(Independient::class, 'id', 'id_independiet');
     }
 }
