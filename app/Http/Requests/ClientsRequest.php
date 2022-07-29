@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
+
 class ClientsRequest extends FormRequest
 {
     /**
@@ -31,7 +32,7 @@ class ClientsRequest extends FormRequest
             'pais' => 'required',
             'direccion' => 'required|max:180',
             'celular' => 'required|numeric|size:10',
-            'id_independient' => 'required|exists:independients,id',
+            'id_independient' => 'required|exists:independients,id'
         ];
     }
 }
