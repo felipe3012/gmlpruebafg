@@ -30,7 +30,7 @@
                     <td>
                         <div class="buttonsGroup">
                             <button type="button" class="btn btn-warning btn-sm" data-toggle="tooltip" data-placement="top" title="Editar"><i class="bi bi-pencil-square"></i></button>
-                            <button type="button" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Eliminar"><i class="bi bi-trash"></i></button>
+                            <button type="button" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Eliminar" @click="eliminarCliente(data.id)"><i class="bi bi-trash"></i></button>
                         </div>
                     </td>
                     </tr>
@@ -51,6 +51,20 @@ export default {
         axios
         .get('api/client')
         .then(response => (this.dataTable = response))
+    },
+    methods: {
+        eliminarCliente(id) {
+            axios.delete('api/client/' + id)
+            .then(response => {
+                alert("Registro Eliminado")
+                this.consultar();
+            });
+        },
+        consultar() {
+            axios
+            .get('api/client')
+            .then(response => (this.dataTable = response))
+        }
     }
 }
 </script>

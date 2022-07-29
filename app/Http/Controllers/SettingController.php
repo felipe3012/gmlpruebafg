@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Setting;
 use App\Http\Requests\SettingRequest;
+use DB;
 
 class SettingController extends Controller
 {

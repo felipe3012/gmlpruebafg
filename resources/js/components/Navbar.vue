@@ -9,10 +9,10 @@
                         <a class="nav-link" href="#">Clientes</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="#">Configuración</a>
+                        <input type="email" class="form-control" v-model="correo.email_admin">
                     </li>
-                    <li class="searchInput">
-                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                    <li>
+                        <input class="btn btn-primary" type="button" value="Cambiar email" @click="cambiarCorreo()">
                     </li>
                 </ul>
             </div>
@@ -28,15 +28,56 @@ export default {
     },
     data() {
         return {
-            show: false
+            show: false,
+            correo: {
+                id: '',
+                email_admin: '',
+            },
+            old: {
+                id: '',
+                email_admin: '',
+            }
         }
     },
     mounted() {
-        //console.log('Component mounted.')
+        axios
+        .get('api/setting')
+        .then(response => (
+            this.correo = {
+                id: response.data[0].id,
+                email_admin: response.data[0].email_admin
+            }
+        ));
+        axios
+        .get('api/setting')
+        .then(response => (
+            this.old = {
+                id: response.data[0].id,
+                email_admin: response.data[0].email_admin
+            }
+        ));
     },
     methods: {
         createClient() {
             this.show = !this.show;
+        },
+        cambiarCorreo(){
+            axios.delete('api/setting/' + this.old.id)
+            .then(response => {
+            });
+            axios.post("api/setting", this.correo)
+            .then(response => {
+                alert("Correo modificado");
+                console.log(response)
+                this.correo = {
+                    id: response.data.id,
+                    email_admin: response.data.email_admin,
+                };
+            })
+            .catch(error => {
+                this.errorMessage = error.message;
+                console.error("There was an error!", error);
+            });
         }
     }
 }

@@ -22726,14 +22726,52 @@ __webpack_require__.r(__webpack_exports__);
   },
   data: function data() {
     return {
-      show: false
+      show: false,
+      correo: {
+        id: '',
+        email_admin: ''
+      },
+      old: {
+        id: '',
+        email_admin: ''
+      }
     };
   },
-  mounted: function mounted() {//console.log('Component mounted.')
+  mounted: function mounted() {
+    var _this = this;
+
+    axios.get('api/setting').then(function (response) {
+      return _this.correo = {
+        id: response.data[0].id,
+        email_admin: response.data[0].email_admin
+      };
+    });
+    axios.get('api/setting').then(function (response) {
+      return _this.old = {
+        id: response.data[0].id,
+        email_admin: response.data[0].email_admin
+      };
+    });
   },
   methods: {
     createClient: function createClient() {
       this.show = !this.show;
+    },
+    cambiarCorreo: function cambiarCorreo() {
+      var _this2 = this;
+
+      axios["delete"]('api/setting/' + this.old.id).then(function (response) {});
+      axios.post("api/setting", this.correo).then(function (response) {
+        alert("Correo modificado");
+        console.log(response);
+        _this2.correo = {
+          id: response.data.id,
+          email_admin: response.data.email_admin
+        };
+      })["catch"](function (error) {
+        _this2.errorMessage = error.message;
+        console.error("There was an error!", error);
+      });
     }
   }
 });
@@ -22833,6 +22871,24 @@ __webpack_require__.r(__webpack_exports__);
     axios.get('api/client').then(function (response) {
       return _this.dataTable = response;
     });
+  },
+  methods: {
+    eliminarCliente: function eliminarCliente(id) {
+      var _this2 = this;
+
+      axios["delete"]('api/client/' + id).then(function (response) {
+        alert("Registro Eliminado");
+
+        _this2.consultar();
+      });
+    },
+    consultar: function consultar() {
+      var _this3 = this;
+
+      axios.get('api/client').then(function (response) {
+        return _this3.dataTable = response;
+      });
+    }
   }
 });
 
@@ -22923,12 +22979,54 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.esm-bundler.js");
 
+var _hoisted_1 = {
+  "class": "navbar navbar-expand-lg navbar-light bg-light"
+};
 
-var _hoisted_1 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createStaticVNode)("<nav class=\"navbar navbar-expand-lg navbar-light bg-light\"><a class=\"navbar-brand\" href=\"#\">Proyecto FG</a><div class=\"collapse navbar-collapse\" id=\"navbarSupportedContent\"><ul class=\"navbar-nav mr-auto\"><li class=\"nav-item active\"><a class=\"nav-link\" href=\"#\">Clientes</a></li><li class=\"nav-item\"><a class=\"nav-link\" href=\"#\">Configuración</a></li><li class=\"searchInput\"><input class=\"form-control mr-sm-2\" type=\"search\" placeholder=\"Search\" aria-label=\"Search\"></li></ul></div></nav>", 1);
+var _hoisted_2 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+  "class": "navbar-brand",
+  href: "#"
+}, "Proyecto FG", -1
+/* HOISTED */
+);
 
-var _hoisted_2 = [_hoisted_1];
+var _hoisted_3 = {
+  "class": "collapse navbar-collapse",
+  id: "navbarSupportedContent"
+};
+var _hoisted_4 = {
+  "class": "navbar-nav mr-auto"
+};
+
+var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", {
+  "class": "nav-item active"
+}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("a", {
+  "class": "nav-link",
+  href: "#"
+}, "Clientes")], -1
+/* HOISTED */
+);
+
+var _hoisted_6 = {
+  "class": "nav-item"
+};
 function render(_ctx, _cache, $props, $setup, $data, $options) {
-  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", null, _hoisted_2);
+  return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("nav", _hoisted_1, [_hoisted_2, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_3, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("ul", _hoisted_4, [_hoisted_5, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", _hoisted_6, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.withDirectives)((0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    type: "email",
+    "class": "form-control",
+    "onUpdate:modelValue": _cache[0] || (_cache[0] = function ($event) {
+      return $data.correo.email_admin = $event;
+    })
+  }, null, 512
+  /* NEED_PATCH */
+  ), [[vue__WEBPACK_IMPORTED_MODULE_0__.vModelText, $data.correo.email_admin]])]), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("li", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("input", {
+    "class": "btn btn-primary",
+    type: "button",
+    value: "Cambiar email",
+    onClick: _cache[1] || (_cache[1] = function ($event) {
+      return $options.cambiarCorreo();
+    })
+  })])])])])]);
 }
 
 /***/ }),
@@ -23187,10 +23285,11 @@ var _hoisted_3 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
 var _hoisted_4 = {
   scope: "row"
 };
-
-var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", {
+var _hoisted_5 = {
   "class": "buttonsGroup"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+};
+
+var _hoisted_6 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
   type: "button",
   "class": "btn btn-warning btn-sm",
   "data-toggle": "tooltip",
@@ -23198,18 +23297,19 @@ var _hoisted_5 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementV
   title: "Editar"
 }, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
   "class": "bi bi-pencil-square"
-})]), /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
-  type: "button",
-  "class": "btn btn-danger btn-sm",
-  "data-toggle": "tooltip",
-  "data-placement": "top",
-  title: "Eliminar"
-}, [/*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
-  "class": "bi bi-trash"
-})])])], -1
+})], -1
 /* HOISTED */
 );
 
+var _hoisted_7 = ["onClick"];
+
+var _hoisted_8 = /*#__PURE__*/(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("i", {
+  "class": "bi bi-trash"
+}, null, -1
+/* HOISTED */
+);
+
+var _hoisted_9 = [_hoisted_8];
 function render(_ctx, _cache, $props, $setup, $data, $options) {
   return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("section", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_1, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("table", _hoisted_2, [_hoisted_3, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("tbody", null, [((0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(true), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)(vue__WEBPACK_IMPORTED_MODULE_0__.Fragment, null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.renderList)($data.dataTable.data, function (data) {
     return (0,vue__WEBPACK_IMPORTED_MODULE_0__.openBlock)(), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementBlock)("tr", {
@@ -23232,7 +23332,18 @@ function render(_ctx, _cache, $props, $setup, $data, $options) {
     /* TEXT */
     ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, (0,vue__WEBPACK_IMPORTED_MODULE_0__.toDisplayString)(data.categories.categorias), 1
     /* TEXT */
-    ), _hoisted_5]);
+    ), (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("td", null, [(0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("div", _hoisted_5, [_hoisted_6, (0,vue__WEBPACK_IMPORTED_MODULE_0__.createElementVNode)("button", {
+      type: "button",
+      "class": "btn btn-danger btn-sm",
+      "data-toggle": "tooltip",
+      "data-placement": "top",
+      title: "Eliminar",
+      onClick: function onClick($event) {
+        return $options.eliminarCliente(data.id);
+      }
+    }, _hoisted_9, 8
+    /* PROPS */
+    , _hoisted_7)])])]);
   }), 128
   /* KEYED_FRAGMENT */
   ))])])])]);
