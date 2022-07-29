@@ -3,6 +3,8 @@
 namespace App\Exceptions;
 
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
+use Symfony\Component\HttpKernel\Exception\HttpException;
+use Illuminate\Validation\ValidationException;
 use Throwable;
 
 class Handler extends ExceptionHandler
@@ -38,4 +40,22 @@ class Handler extends ExceptionHandler
             //
         });
     }
+
+    /**
+     * Undocumented function
+     *
+     * @param [type] $request
+     * @param Throwable $exception
+     * @return void
+     */
+    public function render($request, Throwable $exception)
+    {
+        if ($exception instanceof HttpException) {
+            return response()->json(['error' => 'Ruta no disponible, compruebe su url :' . $exception->getMessage(), 'codeSatus' => '404'], 404);
+        }
+        if ($exception instanceof ValidationException) {
+            return response()->json(['error' => $exception->errors(), 'code' => 404], 404);
+        }
+    }
+
 }

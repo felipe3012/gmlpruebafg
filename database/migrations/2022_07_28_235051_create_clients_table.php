@@ -17,7 +17,7 @@ class CreateClientsTable extends Migration
             $table->increments('id');
             $table->string('nombre', 100);
             $table->string('apellido', 100);
-            $table->string('cedula');
+            $table->string('cedula')->unique();
             $table->string('email', 150)->unique();
             $table->string('pais', 100);
             $table->string('direccion', 180);

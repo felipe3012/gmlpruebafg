@@ -27,12 +27,12 @@ class ClientsRequest extends FormRequest
         return [
             'nombre' => 'required|string|min:5|max:100',
             'apellido' => 'required|string|max:100',
-            'cedula' => 'required|min:0',
-            'email' => 'required|email|max:150',
+            'cedula' => 'required|unique:clients|min:0',
+            'email' => 'required|email|max:150|unique:clients,email',
             'pais' => 'required',
             'direccion' => 'required|max:180',
-            'celular' => 'required|numeric|size:10',
-            'id_independient' => 'required|exists:independients,id'
+            'celular' => 'required|numeric|min:10|max:10',
+            'id_independiet' => 'required|exists:independients,id'
         ];
     }
 }

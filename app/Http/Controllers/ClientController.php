@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Client;
 use App\Http\Requests\ClientsRequest;
+use App\Events\SendEmailCreateUser;
 
 class ClientController extends Controller
 {
@@ -28,10 +29,9 @@ class ClientController extends Controller
      */
     public function store(ClientsRequest $request)
     {
-        //
         if($client = Client::create($request->all())){
-            //event(new evento());
-
+            event(new SendEmailCreateUser([0,$client]));
+            event(new SendEmailCreateUser([1,$client]));
         }
         return $client;
     }
